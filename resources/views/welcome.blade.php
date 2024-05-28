@@ -61,7 +61,7 @@
 <body class="text-center">
 
 <main class="form-signin">
-    <form method="POST" action="">
+    <form method="POST" method="POST" action="{{route('login')}}" enctype="multipart/form-data">
         @csrf
         <i class="fas fa-prescription-bottle-alt mb-4" style="font-size: 72px; color: #5a5a5a;"></i>
         <h1 class="h2 mb-3 fw-normal">FARMACIA</h1>
@@ -89,11 +89,11 @@
 
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember me
+                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
             </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresa</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2024</p>
     </form>
 </main>
 
