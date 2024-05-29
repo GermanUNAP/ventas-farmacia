@@ -92,7 +92,7 @@
                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
             </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresa</button>
+        <button class="w-100 btn btn-lg btn-success" type="submit">Ingresa</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2024</p>
     </form>
 </main>
