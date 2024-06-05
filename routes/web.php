@@ -22,3 +22,8 @@ Route::post("/login",[App\Http\Controllers\LoginController::class, "login"])->na
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/vender', [App\Http\Controllers\HomeController::class, 'vender'])->name('vender');
+
+//CRUD part
+Route::post("/delete",[App\Http\Controllers\DataController::class, "destroy"])->name('delete');
