@@ -27,3 +27,5 @@ Route::get('/vender', [App\Http\Controllers\HomeController::class, 'vender'])->n
 
 //CRUD part
 Route::post("/delete",[App\Http\Controllers\DataController::class, "destroy"])->name('delete');
+Route::get('/buscar-medicamentos', [App\Http\Controllers\HomeController::class, 'buscar'])->name('buscar.medicamentos');
+Route::post('/eliminar-medicamentos', [App\Http\Controllers\HomeController::class, 'eliminarMedicamentos'])->name('eliminar.medicamentos');
