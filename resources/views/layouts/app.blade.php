@@ -37,8 +37,13 @@
                 <ul class="navbar-nav ms-auto">
                 @if (Auth::check())
                         <li class="nav-item">
-                            <button >
-                                <a class="nav-link" href="{{route('vender')}}">Realizar venta</a>
+                            <button class="btn btn-primary">
+                                <a class="nav-link text-white" href="{{ route('vender') }}">Realizar venta</a>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-secondary ms-2">
+                                <a class="nav-link text-white" href="{{ route('register') }}">Registrar usuario</a>
                             </button>
                         </li>
                         <li class="nav-item dropdown">

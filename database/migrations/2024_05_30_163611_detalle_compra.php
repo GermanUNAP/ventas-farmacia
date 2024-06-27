@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::dropIfExists('detalleCompra');
         Schema::create('detalleCompra', function (Blueprint $table) {
             $table->id();
-            $table->string('id_compra');
-            $table->string('id_medicamento')->unique()->nullable();
-            $table->integer('cantidad')->unique()->nullable();
-            $table->integer('precio');
-        });
+            $table->unsignedBigInteger('id_compra');
+            $table->unsignedBigInteger('id_medicamento');
+            $table->integer('cantidad');
+            $table->decimal('precio', 10, 2);
+            $table->timestamps();
+        });        
     }
 
     /**

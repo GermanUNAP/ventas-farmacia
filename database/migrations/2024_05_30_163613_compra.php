@@ -15,9 +15,10 @@ return new class extends Migration
         Schema::create('compra', function (Blueprint $table) {
             $table->id();
             $table->string('ruc_proveedor');
-            $table->string('nombre_proveedor')->unique()->nullable();
+            $table->string('nombre_proveedor')->nullable();
             $table->decimal('precio', 10, 2);
             $table->timestamp('fecha')->nullable();
+            $table->timestamps();
         });
     }
 

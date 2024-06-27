@@ -56,20 +56,7 @@
         });
     });
 
-    function fetchMedicamentos(query) {
-        $.ajax({
-            url: "{{ route('buscar.medicamentos') }}",
-            type: 'GET',
-            data: {query: query},
-            success: function(response) {
-                $('#medicamentosBody').html(response);
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-
+   
     function eliminarSeleccionados() {
         var ids = [];
         $('.rowCheckbox:checked').each(function() {

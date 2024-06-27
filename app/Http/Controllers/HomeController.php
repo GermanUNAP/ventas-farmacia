@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Medicamento;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -21,19 +21,60 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medicamentos = DB::table('medicamento')->paginate(5);
-        return view('home', ['medicamentos' => $medicamentos]);
+        // Obtener todos los medicamentos paginados
+        $medicamentos = Medicamento::paginate(5);
+
+        // Si se está realizando una solicitud AJAX, devolver solo la vista parcial
+        if ($request->ajax()) {
+            return view('partials.tabla_medicamentos', compact('medicamentos'));
+        }
+
+        // Si es una solicitud normal, devolver la vista completa
+        return Inertia::render('Home', [
+            'medicamentos' => $medicamentos
+        ]);
     }
-    public function vender()
-    {
-        return view('venta');
+
+    /**
+     * Handle AJAX request for searching medications.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function buscar(Request $request){
+        $query = $request->input('query', '');
+        $sortBy = $request->input('sortBy', 'id');
+        $descending = $request->input('descending', 'false') === 'true';
+        $page = $request->input('page', 1);
+        $rowsPerPage = $request->input('rowsPerPage', 5);
+
+        $medicamentos = Medicamento::where(function($q) use ($query) {
+                                    $q->where('nombre', 'LIKE', "%{$query}%")
+                                    ->orWhere('id', 'LIKE', "%{$query}%")
+                                    ->orWhere('lote', 'LIKE', "%{$query}%");
+                                })
+                                ->orderBy($sortBy, $descending ? 'desc' : 'asc')
+                                ->paginate($rowsPerPage, ['*'], 'page', $page);
+
+        if ($request->ajax()) {
+            return response()->json($medicamentos);
+        }
+
+        return view('home', compact('medicamentos'));
     }
 
 
+
+    /**
+     * Handle AJAX request for deleting selected medications.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function eliminar(Request $request)
     {
         $ids = $request->input('ids');
@@ -44,24 +85,38 @@ class HomeController extends Controller
         // Devolver una respuesta de éxito
         return response()->json(['message' => 'Medicamentos eliminados con éxito.']);
     }
-    public function buscar(Request $request)
-    {
-        $query = $request->input('query');
+    public function fetchMedicamentos(Request $request){
+        
+        try {
+            $page = $request->input('page', 1);
+            $rowsPerPage = $request->input('rowsPerPage', 10); // Número predeterminado de filas por página
+            $sortBy = $request->input('sortBy', 'id'); // Campo por defecto para ordenar
+            $descending = $request->input('descending', false);
+            $filter = $request->input('filter', '');
 
-        // Realiza la búsqueda en la base de datos usando $query y devuelve los resultados
-        $medicamentos = Medicamento::where('nombre', 'LIKE', "%{$query}%")
-                                ->orWhere('id', 'LIKE', "%{$query}%")
-                                ->orWhere('lote', 'LIKE', "%{$query}%")
-                                ->paginate(5);
+            // Construir la consulta para obtener los medicamentos paginados y filtrados
+            $query = Medicamento::query();
 
-        // Si se está realizando una solicitud AJAX, devuelva solo la vista parcial
-        if ($request->ajax()) {
-            return view('partials.tabla_medicamentos', compact('medicamentos'));
+            // Aplicar filtro si está presente
+            if (!empty($filter)) {
+                $query->where('nombre', 'LIKE', "%{$filter}%")
+                    ->orWhere('id', 'LIKE', "%{$filter}%")
+                    ->orWhere('lote', 'LIKE', "%{$filter}%");
+            }
+
+            // Ordenar por columna y dirección
+            $direction = $descending ? 'desc' : 'asc';
+            $query->orderBy($sortBy, $direction);
+
+            // Obtener los medicamentos paginados
+            $medicamentos = $query->paginate($rowsPerPage);
+
+            // Devolver los medicamentos paginados como respuesta JSON
+            return response()->json($medicamentos);
+        } catch (\Exception $e) {
+            \Log::error('Error en fetchMedicamentos: ' . $e->getMessage());
+            return response()->json(['error' => 'Error interno del servidor'], 500);
         }
-
-        // Si es una solicitud normal, devuelva la vista completa
-        return view('home', compact('medicamentos'));
     }
-
 
 }

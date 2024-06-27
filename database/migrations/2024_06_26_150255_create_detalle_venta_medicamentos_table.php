@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('detalleVentaMedicamento');
-        Schema::create('detalleVentaMedicamento', function (Blueprint $table) {
+        Schema::create('detalle_venta_medicamentos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_venta');
-            $table->unsignedBigInteger('id_medicamento');
-            $table->integer('cantidad');
-            $table->decimal('precio_unidad', 10, 2);
-            $table->decimal('precio_total', 10, 2);
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('detalle_venta_medicamentos');
     }
 };

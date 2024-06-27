@@ -15,13 +15,15 @@ return new class extends Migration
         Schema::create('medicamento', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->integer('cantidad')->unique()->nullable();
-            $table->string('precio_unidad_vender')->unique()->nullable();
-            $table->decimal('precio_venta', 10,2);
+            $table->integer('cantidad');
+            $table->decimal('precio_unidad_vender', 10, 2);
+            $table->decimal('precio_venta', 10, 2);
             $table->decimal('precio_comprado', 10, 2);
             $table->datetime('vencimiento')->nullable();
             $table->string('lote');
+            $table->timestamps();
         });
+        
     }
 
     /**

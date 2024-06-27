@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::dropIfExists('venta');
         Schema::create('venta', function (Blueprint $table) {
             $table->id();
-            $table->string('id_usuario');
-            $table->string('dni_compraod')->nullable();
+            $table->unsignedBigInteger('id_usuario');
+            $table->string('dni_comprador')->nullable();
             $table->string('nombre_comprador')->nullable();
-            $table->decimal('precio_pagar', 10,2);
+            $table->decimal('precio_pagar', 10, 2);
             $table->datetime('fecha');
-            $table->string('puntos-extra');
+            $table->integer('puntos_extra');
+            $table->timestamps();
         });
+        
     }
 
     /**
