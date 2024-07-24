@@ -9,7 +9,5 @@ class Medicamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'medicamento';
-
-    // Aquí puedes definir relaciones con otros modelos, atributos protegidos, etc.
+    protected $fillable = ['nombre', 'cantidad', 'precio_unidad_vender', 'precio_venta', 'precio_comprado', 'vencimiento', 'lote'];
 }

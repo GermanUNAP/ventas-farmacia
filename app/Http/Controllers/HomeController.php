@@ -43,9 +43,10 @@ class HomeController extends Controller
      * Handle AJAX request for searching medications.
      *
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function buscar(Request $request){
+    public function buscar(Request $request)
+    {
         $query = $request->input('query', '');
         $sortBy = $request->input('sortBy', 'id');
         $descending = $request->input('descending', 'false') === 'true';
@@ -60,14 +61,8 @@ class HomeController extends Controller
                                 ->orderBy($sortBy, $descending ? 'desc' : 'asc')
                                 ->paginate($rowsPerPage, ['*'], 'page', $page);
 
-        if ($request->ajax()) {
-            return response()->json($medicamentos);
-        }
-
-        return view('home', compact('medicamentos'));
+        return response()->json($medicamentos);
     }
-
-
 
     /**
      * Handle AJAX request for deleting selected medications.
@@ -85,8 +80,15 @@ class HomeController extends Controller
         // Devolver una respuesta de éxito
         return response()->json(['message' => 'Medicamentos eliminados con éxito.']);
     }
-    public function fetchMedicamentos(Request $request){
-        
+
+    /**
+     * Fetch medications for DataTable.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchMedicamentos(Request $request)
+    {
         try {
             $page = $request->input('page', 1);
             $rowsPerPage = $request->input('rowsPerPage', 10); // Número predeterminado de filas por página
@@ -118,5 +120,4 @@ class HomeController extends Controller
             return response()->json(['error' => 'Error interno del servidor'], 500);
         }
     }
-
 }

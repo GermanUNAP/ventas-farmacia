@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <!-- Configuración de Vite para cargar tu aplicación Vue.js -->
-    @vite('resources/js/app.js')
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Métodos de Inertia para configurar el encabezado -->
-    @inertiaHead
+        <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Meta tag para el token CSRF -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-  </head>
-  <body>
-    <!-- Renderizado de la aplicación Vue.js con Inertia -->
-    @inertia
-  </body>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @routes
+        @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
+        @inertiaHead
+    </head>
+    <body class="font-sans antialiased">
+        @inertia
+    </body>
 </html>

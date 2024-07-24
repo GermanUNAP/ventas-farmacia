@@ -21,12 +21,6 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Lógica adicional personalizada
-                // Ejemplo: registrar una actividad del usuario autenticado
-                $user = Auth::guard($guard)->user();
-                // Aquí puedes registrar la actividad, como guardar un registro en la base de datos
-                \Log::info('Usuario autenticado', ['user_id' => $user->id]);
-
                 return redirect(RouteServiceProvider::HOME);
             }
         }
@@ -34,4 +28,3 @@ class RedirectIfAuthenticated
         return $next($request);
     }
 }
-

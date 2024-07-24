@@ -9,13 +9,9 @@ class Venta extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'dni_comprador',
-        'total'
-    ];
-
-    public function medicamentos()
+    protected $fillable = ['id_usuario', 'dni_comprador', 'nombre_comprador', 'precio_pagar', 'fecha', 'puntos_extra'];
+    public function detalles()
     {
-        return $this->belongsToMany(Medicamento::class)->withPivot('cantidad', 'precio_unidad_vender');
+        return $this->hasMany(DetalleVenta::class, 'id_venta');
     }
 }
