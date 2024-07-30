@@ -179,14 +179,18 @@
     </div>
 
     <!-- Modal para confirmar eliminación -->
+    <!-- Modal para confirmar eliminación -->
     <div v-if="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
       <div class="bg-white p-6 rounded">
         <h2 class="text-lg font-semibold mb-4">Eliminar Medicamento</h2>
         <p>¿Está seguro de que desea eliminar este medicamento?</p>
-        <div class="flex justify-end mt-4">
-          <button @click="closeDeleteModal" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
-          <button @click="deleteMedicamento" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
-        </div>
+        <form @submit.prevent="deleteMedicamento">
+          <input type="hidden" :value="deleteId" name="medicamento_id">
+          <div class="flex justify-end mt-4">
+            <button @click="closeDeleteModal" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+          </div>
+        </form>
       </div>
     </div>
   </AuthenticatedLayout>
@@ -203,9 +207,8 @@ const medicamentos = ref([]);
 const query = ref('');
 const sortBy = ref('id');
 const descending = ref(false);
-const currentPage = ref(1);
-const rowsPerPage = ref(10);
 const page = ref(1);
+const rowsPerPage = ref(10);
 const pageOptions = [10, 20, 30, 40, 50];
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
@@ -218,6 +221,7 @@ const editForm = reactive({
 });
 const deleteId = ref(null);
 
+// Función para obtener los datos
 const fetchData = async () => {
   try {
     const response = await axios.get('/buscar-medicamentos', {
@@ -235,10 +239,13 @@ const fetchData = async () => {
   }
 };
 
+// Función debounced para búsqueda
 const debouncedFetchData = debounce(fetchData, 800);
 
+// Llamada inicial al montar el componente
 onMounted(fetchData);
 
+// Función para cambiar el orden de la tabla
 const changeSort = (column) => {
   if (sortBy.value === column) {
     descending.value = !descending.value;
@@ -249,6 +256,7 @@ const changeSort = (column) => {
   fetchData();
 };
 
+// Función para cambiar la página
 const changePage = (url) => {
   if (url) {
     axios.get(url).then((response) => {
@@ -257,11 +265,13 @@ const changePage = (url) => {
   }
 };
 
+// Función para manejar el cambio en el número de filas por página
 const handleRowsPerPageChange = () => {
-  currentPage.value = 1;
+  page.value = 1;
   fetchData();
 };
 
+// Función para abrir el modal de edición
 const openEditModal = (medicamento) => {
   editForm.id = medicamento.id;
   editForm.nombre = medicamento.nombre;
@@ -271,44 +281,51 @@ const openEditModal = (medicamento) => {
   showEditModal.value = true;
 };
 
+// Función para cerrar el modal de edición
 const closeEditModal = () => {
   showEditModal.value = false;
 };
 
+// Función para actualizar el medicamento
 const updateMedicamento = () => {
   axios
     .put(route('ventas-farmacia.actualizar-medicamento', editForm.id), editForm)
     .then(() => {
       fetchData();
-      showEditModal.value = false;
+      closeEditModal();
     })
     .catch((error) => {
       console.error(error);
     });
 };
 
+// Función para abrir el modal de eliminación
 const openDeleteModal = (id) => {
   deleteId.value = id;
   showDeleteModal.value = true;
 };
 
+// Función para cerrar el modal de eliminación
 const closeDeleteModal = () => {
   showDeleteModal.value = false;
 };
 
+// Función para eliminar el medicamento
 const deleteMedicamento = () => {
   axios
-    .delete(route('ventas-farmacia.eliminar-medicamento', deleteId.value))
+    .delete(route('medicamentos.destroy', deleteId.value))
     .then(() => {
-      fetchData();
-      showDeleteModal.value = false;
+      fetchData(); // Actualiza la lista de medicamentos
+      showDeleteModal.value = false; // Cierra el modal de confirmación
     })
     .catch((error) => {
       console.error(error);
     });
 };
+
 </script>
 
 <style scoped>
 /* Aquí puedes añadir tus estilos personalizados */
 </style>
+

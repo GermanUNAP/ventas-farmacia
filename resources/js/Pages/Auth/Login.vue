@@ -1,6 +1,6 @@
 <template>
   <GuestLayout>
-    <Head title="Log in"/>
+    <Head title="Iniciar sesión"/>
 
     <div class="flex flex-col overflow-y-auto md:flex-row">
       <div class="h-32 md:h-auto md:w-1/2">
@@ -8,7 +8,7 @@
       </div>
       <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
         <div class="w-full">
-          <h1 class="mb-4 text-xl font-semibold text-gray-700">Login</h1>
+          <h1 class="mb-4 text-xl font-semibold text-gray-700">Iniciar sesión</h1>
 
           <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -30,7 +30,7 @@
             <div class="block mt-4">
               <label class="flex items-center">
                 <Checkbox name="remember" v-model:checked="form.remember"/>
-                <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                <span class="ml-2 text-sm text-gray-600">Recordarme</span>
               </label>
             </div>
 
@@ -40,7 +40,7 @@
               </Link>
 
               <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Log in
+                Iniciar sesión
               </PrimaryButton>
             </div>
           </form>

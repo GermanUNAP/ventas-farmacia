@@ -20,8 +20,15 @@
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.6.0",
         "@fortawesome/vue-fontawesome": "^3.0.8",
+        "chart.js": "^4.4.3",
+        "datatables.net": "^2.1.2",
+        "datatables.net-vue3": "^3.0.2",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.8.2",
         "lodash": "^4.17.21",
         "toastr": "^2.1.4",
-        "vue-toast-notification": "^3.1.2"
+        "vue-chartjs": "^5.3.1",
+        "vue-toast-notification": "^3.1.2",
+        "xlsx": "^0.18.5"
     }
 }

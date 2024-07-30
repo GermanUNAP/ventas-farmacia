@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // Obtener todos los medicamentos paginados
         $medicamentos = Medicamento::paginate(5);
 
         // Si se está realizando una solicitud AJAX, devolver solo la vista parcial
@@ -33,7 +32,6 @@ class HomeController extends Controller
             return view('partials.tabla_medicamentos', compact('medicamentos'));
         }
 
-        // Si es una solicitud normal, devolver la vista completa
         return Inertia::render('Home', [
             'medicamentos' => $medicamentos
         ]);

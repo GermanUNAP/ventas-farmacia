@@ -10,7 +10,7 @@
       <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
         <div class="w-full">
           <h1 class="mb-4 text-xl font-semibold text-gray-700">
-            Create account
+            Crear cuenta
           </h1>
 
           <form @submit.prevent="submit">
@@ -40,11 +40,11 @@
 
             <div class="flex items-center justify-end mt-4">
               <Link :href="route('login')" class="text-sm text-gray-600 underline  hover:text-gray-900">
-                Already registered?
+                ¿Ya se registró?
               </Link>
 
               <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
+                Registrar
               </PrimaryButton>
             </div>
           </form>

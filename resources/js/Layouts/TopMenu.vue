@@ -50,15 +50,31 @@
         <form @submit.prevent="addMedicamento">
           <div class="mb-4">
             <label for="name" class="block text-gray-700">Nombre</label>
-            <input type="text" id="name" v-model="medicamento.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <input type="text" id="name" v-model="medicamento.nombre" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
           </div>
           <div class="mb-4">
             <label for="cantidad" class="block text-gray-700">Cantidad</label>
-            <input type="number" id="cantidad" v-model="medicamento.cantidad" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <input type="number" id="cantidad" v-model="medicamento.cantidad" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
           </div>
           <div class="mb-4">
-            <label for="precio" class="block text-gray-700">Precio por Unidad</label>
-            <input type="number" step="0.01" id="precio" v-model="medicamento.precio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <label for="precio_unidad_vender" class="block text-gray-700">Precio por Unidad</label>
+            <input type="number" step="0.01" id="precio_unidad_vender" v-model="medicamento.precio_unidad_vender" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+          </div>
+          <div class="mb-4">
+            <label for="precio_venta" class="block text-gray-700">Precio de Venta</label>
+            <input type="number" step="0.01" id="precio_venta" v-model="medicamento.precio_venta" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+          </div>
+          <div class="mb-4">
+            <label for="precio_comprado" class="block text-gray-700">Precio Comprado</label>
+            <input type="number" step="0.01" id="precio_comprado" v-model="medicamento.precio_comprado" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+          </div>
+          <div class="mb-4">
+            <label for="vencimiento" class="block text-gray-700">Fecha de Vencimiento</label>
+            <input type="date" id="vencimiento" v-model="medicamento.vencimiento" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+          </div>
+          <div class="mb-4">
+            <label for="lote" class="block text-gray-700">Lote</label>
+            <input type="text" id="lote" v-model="medicamento.lote" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
           </div>
           <div class="flex justify-end">
             <button @click="showModal = false" type="button" class="mr-4 px-4 py-2 bg-gray-300 rounded-md">Cancelar</button>
@@ -74,18 +90,43 @@
 import { ref } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
+import axios from 'axios'; // Asegúrate de importar axios
 
 const showModal = ref(false);
 const medicamento = ref({
-  name: '',
+  nombre: '',
   cantidad: 0,
-  precio: 0.00,
+  precio_unidad_vender: 0.00,
+  precio_venta: 0.00,
+  precio_comprado: 0.00,
+  vencimiento: '',
+  lote: '',
 });
 
-const addMedicamento = () => {
-  // Lógica para agregar medicamento
-  // Podrías hacer una petición AJAX a tu backend aquí
-  console.log(medicamento.value);
-  showModal.value = false;
-}
+const addMedicamento = async () => {
+  try {
+    await axios.post('/medicamentos', medicamento.value);
+    // Aquí puedes mostrar un mensaje de éxito o redirigir al usuario
+    alert('Medicamento agregado exitosamente');
+    // Opcionalmente, puedes cerrar el modal y reiniciar el formulario
+    showModal.value = false;
+    medicamento.value = {
+      nombre: '',
+      cantidad: 0,
+      precio_unidad_vender: 0.00,
+      precio_venta: 0.00,
+      precio_comprado: 0.00,
+      vencimiento: '',
+      lote: '',
+    };
+  } catch (error) {
+    // Manejo de errores
+    console.error(error);
+    alert('Ocurrió un error al agregar el medicamento');
+  }
+};
 </script>
+
+<style scoped>
+/* Aquí puedes añadir estilos adicionales si es necesario */
+</style>

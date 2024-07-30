@@ -2,7 +2,7 @@
   <aside class="z-20 hidden w-64 overflow-y-auto bg-white md:block flex-shrink-0">
     <div class="py-4 text-gray-500">
       <Link class="ml-6 text-lg font-bold text-gray-800" :href="route('dashboard')">
-        Windmill
+        Farmacia
       </Link>
 
       <ul class="mt-6">
@@ -15,7 +15,7 @@
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
               </svg>
             </template>
-            Dashboard
+            Ventas
           </NavLink>
         </li>
 
@@ -41,7 +41,7 @@
                     d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
               </svg>
             </template>
-            About us
+            Dashboard
           </NavLink>
         </li>
 
@@ -62,12 +62,12 @@
                     clip-rule="evenodd"></path>
             </svg>
           </button>
-            <ul v-show="showingTwoLevelMenu" class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50"
-                aria-label="submenu">
-              <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                <a class="w-full" href="#">Child menu</a>
-              </li>
-            </ul>
+          <ul v-show="showingTwoLevelMenu" class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50"
+              aria-label="submenu">
+            <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
+              <a class="w-full" href="#">Child menu</a>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
@@ -77,7 +77,7 @@
 <script>
 import NavLink from '@/Components/NavLink.vue'
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export default {
   components: {
@@ -86,11 +86,11 @@ export default {
   },
 
   setup() {
-    let showingTwoLevelMenu = ref(false)
+    const showingTwoLevelMenu = ref(false);
 
     return {
       showingTwoLevelMenu
-    }
-  },
+    };
+  }
 }
 </script>
